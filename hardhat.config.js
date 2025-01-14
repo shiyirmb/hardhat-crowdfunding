@@ -1,4 +1,9 @@
 require("@nomicfoundation/hardhat-toolbox");
+// dotenv 用来获取.env中的配置信息 process.env.xxx
+// 出于安全考虑，将使用@chainlink/env-enc（可加密）替代dotenv
+require('@chainlink/env-enc').config();
+
+const { SEPOLIA_URL, PRIVATE_KEY } = process.env
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -7,9 +12,9 @@ module.exports = {
   networks: {
     sepolia: {
       // 可以从第三方拿到免费的JSON-RPC URL Alchemy/Infura/QuickNode
-      url: 'https://eth-sepolia.g.alchemy.com/v2/UGo-zdgfEKl3oq6rN6HhtxwVUW4UKpgr', // https://dashboard.alchemy.com/apps
+      url: SEPOLIA_URL,
       // 私钥地址，是一个数组。MetaMask或者其他钱包的账户中获取
-      accounts: ["6d8f5e03675b0313c9abf10881397e901cd48c3eff7199e593414854f7d1638d"],
+      accounts: [PRIVATE_KEY],
     }
   }
 };

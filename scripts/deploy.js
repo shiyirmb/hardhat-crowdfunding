@@ -18,3 +18,5 @@ main().then().catch((error) => {
     console.error(error)
     process.exit(1) // 正常退出-0 异常退出-1
 })
+
+// 执行命令：npx hardhat run scripts/deploy.js --network sepolia
