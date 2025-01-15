@@ -8,7 +8,7 @@ const { ProxyAgent, setGlobalDispatcher } = require("undici");
 const proxyAgent = new ProxyAgent("http://127.0.0.1:7890");
 setGlobalDispatcher(proxyAgent);
 
-const { SEPOLIA_URL, PRIVATE_KEY, ETHERSCAN_API_KEY } = process.env
+const { SEPOLIA_URL, PRIVATE_KEY, PRIVATE_KEY_2, ETHERSCAN_API_KEY } = process.env
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
       // 可以从第三方拿到免费的JSON-RPC URL Alchemy/Infura/QuickNode
       url: SEPOLIA_URL,
       // 私钥地址，是一个数组。MetaMask或者其他钱包的账户中获取
-      accounts: [PRIVATE_KEY],
+      accounts: [PRIVATE_KEY, PRIVATE_KEY_2],
       // sepolia 区块链ID
       chainId: 11155111,
     }

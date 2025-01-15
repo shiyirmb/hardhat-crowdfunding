@@ -20,6 +20,29 @@ async function main() {
         console.log(`已确认，合约验证中...`)
         await verifyCrowFunding(crowdFunding.target, [1])
         console.log(`合约验证完成`)
+
+        // 初始化合约账号
+        const [account1, account2] = await ethers.getSigners()
+        // 使用第一个账号进行交易
+        const tx1 = await crowdFunding.payment({ value: ethers.parseEther("0.5") })
+        console.log(`第一个账号等待交易入块中...`);
+        await tx1.wait()
+        // ethers.provider 作用等同于 MetaMask etherscan
+        const balanceOfContractAfterAccount1 = await ethers.provider.getBalance(crowdFunding.target)
+        console.log(`查看合约上的ETH: ${balanceOfContractAfterAccount1}`);
+
+        // 使用第二个账号进行交易
+        const tx2 = await crowdFunding.connect(account2).payment({ value: ethers.parseEther("0.5") })
+        console.log(`第二个账号等待交易入块中...`);
+        await tx2.wait()
+        const balanceOfContractAfterAccount2 = await ethers.provider.getBalance(crowdFunding.target)
+        console.log(`查看合约上的ETH: ${balanceOfContractAfterAccount2}`);
+
+        // 分别查看两个账号上面的ETH
+        const balanceOfAccount1 = await crowdFunding.investorToAmount(account1.address)
+        console.log(`第一个账号[${account1.address}]上的ETH: ${balanceOfAccount1}`);
+        const balanceOfAccount2 = await crowdFunding.investorToAmount(account2.address)
+        console.log(`第二个账号[${account2.address}]上的ETH: ${balanceOfAccount2}`);
     } else {
         console.log('已跳过合约验证')
     }
