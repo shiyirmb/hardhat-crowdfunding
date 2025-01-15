@@ -20,6 +20,8 @@ module.exports = {
       url: SEPOLIA_URL,
       // 私钥地址，是一个数组。MetaMask或者其他钱包的账户中获取
       accounts: [PRIVATE_KEY],
+      // sepolia 区块链ID
+      chainId: 11155111,
     }
   },
   etherscan: {
