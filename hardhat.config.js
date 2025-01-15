@@ -3,7 +3,12 @@ require("@nomicfoundation/hardhat-toolbox");
 // 出于安全考虑，将使用@chainlink/env-enc（可加密）替代dotenv
 require('@chainlink/env-enc').config();
 
-const { SEPOLIA_URL, PRIVATE_KEY } = process.env
+// 解决网络连接失败参考：https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/2247#discussioncomment-5496669
+const { ProxyAgent, setGlobalDispatcher } = require("undici");
+const proxyAgent = new ProxyAgent("http://127.0.0.1:7890");
+setGlobalDispatcher(proxyAgent);
+
+const { SEPOLIA_URL, PRIVATE_KEY, ETHERSCAN_API_KEY } = process.env
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -15,6 +20,12 @@ module.exports = {
       url: SEPOLIA_URL,
       // 私钥地址，是一个数组。MetaMask或者其他钱包的账户中获取
       accounts: [PRIVATE_KEY],
+    }
+  },
+  etherscan: {
+    // 参考：https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify#usage
+    apiKey: {
+      sepolia: ETHERSCAN_API_KEY,
     }
   }
 };

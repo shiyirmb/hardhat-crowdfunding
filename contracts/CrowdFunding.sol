@@ -34,7 +34,7 @@ contract CrowdFunding {
     // ERC20通证合约地址 用于判断是否可以调用重置 investorToAmount
     address public erc20Addr;
 
-    constructor(uint256 lockTimeSecond, uint256 minAmountUSD, uint256 targetAmountUSD) {
+    constructor(uint256 lockTimeDay) {
         // 初始化喂价变量
         dataFeed = AggregatorV3Interface(
             0x694AA1769357215DE4FAC081bf1f309aDC325306 // 以太坊-Sepolia测试网-ETH/USD地址
@@ -43,12 +43,8 @@ contract CrowdFunding {
         owner = msg.sender;
         // 合约的部署时间就是当前区块的时间戳
         deploymentTime = block.timestamp;
-        // 锁定期由部署合约时确定 单位：秒
-        lockTime = lockTimeSecond;
-        // 最小投资金额由部署合约时确定 单位：美元
-        minAmount = minAmountUSD * 10 ** 18;
-        // 最小投资金额由部署合约时确定 单位：美元
-        targetAmount = targetAmountUSD * 10 ** 18;
+        // 锁定期由部署合约时确定 单位：天
+        lockTime = lockTimeDay * 24 * 60 * 60;
     }
 
     // 创建收款函数
