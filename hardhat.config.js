@@ -2,6 +2,8 @@ require("@nomicfoundation/hardhat-toolbox");
 // dotenv 用来获取.env中的配置信息 process.env.xxx
 // 出于安全考虑，将使用@chainlink/env-enc（可加密）替代dotenv
 require('@chainlink/env-enc').config();
+// 引入tasks
+require('./tasks')
 
 // 解决网络连接失败参考：https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/2247#discussioncomment-5496669
 const { ProxyAgent, setGlobalDispatcher } = require("undici");
