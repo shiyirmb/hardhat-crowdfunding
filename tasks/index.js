@@ -4,3 +4,4 @@ exports.deployTask = require('./deploy')
 exports.interactTask = require('./interact')
 
 exports.deployTaskCFT = require('./deploy-cft')
+exports.interactTaskCFT = require('./interact-cft')
