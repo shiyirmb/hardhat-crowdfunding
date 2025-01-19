@@ -34,11 +34,9 @@ contract CrowdFunding {
     // ERC20通证合约地址 用于判断是否可以调用重置 investorToAmount
     address public erc20Addr;
 
-    constructor(uint256 lockTimeDay) {
-        // 初始化喂价变量
-        dataFeed = AggregatorV3Interface(
-            0x694AA1769357215DE4FAC081bf1f309aDC325306 // 以太坊-Sepolia测试网-ETH/USD地址
-        );
+    constructor(uint256 lockTimeDay, address datafeedAddr) {
+        // 初始化喂价变量 0x694AA1769357215DE4FAC081bf1f309aDC325306 // 以太坊-Sepolia测试网-ETH/USD地址
+        dataFeed = AggregatorV3Interface(datafeedAddr);
         // 合约部署者就是合约拥有者
         owner = msg.sender;
         // 合约的部署时间就是当前区块的时间戳
