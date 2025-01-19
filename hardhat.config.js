@@ -4,6 +4,8 @@ require("@nomicfoundation/hardhat-toolbox");
 require('@chainlink/env-enc').config();
 // 引入tasks
 require('./tasks')
+// 引入hardhat-deploy
+require('hardhat-deploy');
 
 // 解决网络连接失败参考：https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/2247#discussioncomment-5496669
 const { ProxyAgent, setGlobalDispatcher } = require("undici");
@@ -30,6 +32,14 @@ module.exports = {
     // 参考：https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify#usage
     apiKey: {
       sepolia: ETHERSCAN_API_KEY,
+    }
+  },
+  namedAccounts: {
+    account1: {
+      default: 0,
+    },
+    account2: {
+      default: 1,
     }
   }
 };
