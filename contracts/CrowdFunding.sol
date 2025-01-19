@@ -17,7 +17,7 @@ contract CrowdFunding {
     // 设置最小投资金额
     uint256 minAmount = 10 * 10 ** 18; // 10USD
     // 声明喂价变量
-    AggregatorV3Interface internal dataFeed;
+    AggregatorV3Interface public dataFeed;
 
     // 合约拥有者
     address public owner;
