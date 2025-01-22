@@ -34,6 +34,9 @@ contract CrowdFunding {
     // ERC20通证合约地址 用于判断是否可以调用重置 investorToAmount
     address public erc20Addr;
 
+    // 当合约拥有者成功提取众筹资金时，记录操作事件日志 记录提取的金额
+    event FundWithdrawByOwner(uint256);
+
     constructor(uint256 lockTimeDay, address datafeedAddr) {
         // 初始化喂价变量 0x694AA1769357215DE4FAC081bf1f309aDC325306 // 以太坊-Sepolia测试网-ETH/USD地址
         dataFeed = AggregatorV3Interface(datafeedAddr);
@@ -95,11 +98,14 @@ contract CrowdFunding {
 
         // 三种转账函数-3：call 以太坊官方推荐函数
         // (bool, value) = addr.call{value: value}("data"); => (布尔值, 返回值) = 转账地址.call{value: 转账的ETH}("数据");
+        uint256 balance = address(this).balance;
         bool success;
         (success, ) = payable(msg.sender).call{value: address(this).balance}("");
         require(success, "tx failed");
         // investorToAmount[msg.sender] = 0;
         getFundSuccess = true;
+        // emit event 比较重要的操作 添加日志
+        emit FundWithdrawByOwner(balance);
     }
 
     // 投资者 退款 超过锁定期才可以退款
