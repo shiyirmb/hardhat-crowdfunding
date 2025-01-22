@@ -36,6 +36,8 @@ contract CrowdFunding {
 
     // 当合约拥有者成功提取众筹资金时，记录操作事件日志 记录提取的金额
     event FundWithdrawByOwner(uint256);
+    // 当锁定期已过 并且 众筹未达到目标时，记录投资人退款事件日志
+    event RefundByInvestor(address, uint256);
 
     constructor(uint256 lockTimeDay, address datafeedAddr) {
         // 初始化喂价变量 0x694AA1769357215DE4FAC081bf1f309aDC325306 // 以太坊-Sepolia测试网-ETH/USD地址
@@ -119,9 +121,13 @@ contract CrowdFunding {
         uint256 amount = investorToAmount[msg.sender];
         investorToAmount[msg.sender] = 0;
         (success, ) = payable(msg.sender).call{value: amount}("");
-        require(success == false);
-        // 退款失败 恢复投资人投资金额
-        investorToAmount[msg.sender] = amount;
+        if (success) {
+            // 退款成功 添加退款日志
+            emit RefundByInvestor(msg.sender, amount);
+        } else {
+            // 退款失败 恢复投资人投资金额
+            investorToAmount[msg.sender] = amount;
+        }
     }
 
     // 设置ERC20通证合约地址
