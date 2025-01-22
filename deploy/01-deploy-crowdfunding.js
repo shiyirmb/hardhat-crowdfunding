@@ -15,19 +15,21 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deploy } = deployments
 
     // 喂价，如果是本地环境采用mock地址，否则使用相应环境中的地址
-    let datafeedAddr = ''
+    let datafeedAddr, waitConfirmations
     if (devlopmentChains.includes(network.name)) {
         const MockV3Aggregator = await deployments.get("MockV3Aggregator")
         datafeedAddr = MockV3Aggregator.address
+        waitConfirmations = 0
     } else {
         datafeedAddr = networkConfig[network.config.chainId].ethUsdDataFeedAddr
+        waitConfirmations = CONFIRMATIONS
     }
 
     const CrowdFunding = await deploy("CrowdFunding", {
         from: account1,
         args: [LOCK_TIME, datafeedAddr],
         log: true,
-        waitConfirmations: CONFIRMATIONS, // 等待确认
+        waitConfirmations, // 等待确认
     })
 
     // 合约验证
