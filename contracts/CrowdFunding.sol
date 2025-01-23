@@ -39,15 +39,15 @@ contract CrowdFunding {
     // 当锁定期已过 并且 众筹未达到目标时，记录投资人退款事件日志
     event RefundByInvestor(address, uint256);
 
-    constructor(uint256 lockTimeDay, address datafeedAddr) {
+    constructor(uint256 _lockTime, address datafeedAddr) {
         // 初始化喂价变量 0x694AA1769357215DE4FAC081bf1f309aDC325306 // 以太坊-Sepolia测试网-ETH/USD地址
         dataFeed = AggregatorV3Interface(datafeedAddr);
         // 合约部署者就是合约拥有者
         owner = msg.sender;
         // 合约的部署时间就是当前区块的时间戳
         deploymentTime = block.timestamp;
-        // 锁定期由部署合约时确定 单位：天
-        lockTime = lockTimeDay * 24 * 60 * 60;
+        // 锁定期由部署合约时确定 单位：秒
+        lockTime = _lockTime;
     }
 
     // 创建收款函数

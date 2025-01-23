@@ -18,6 +18,10 @@ const { SEPOLIA_URL, PRIVATE_KEY, PRIVATE_KEY_2, ETHERSCAN_API_KEY } = process.e
 module.exports = {
   // defaultNetwork: "hardhat", // 默认网络，可以不写
   solidity: "0.8.28",
+  // 设置超时时间
+  mocha: {
+    timeout: 300 * 1000,
+  },
   networks: {
     sepolia: {
       // 可以从第三方拿到免费的JSON-RPC URL Alchemy/Infura/QuickNode
