@@ -38,6 +38,8 @@ contract CrowdFunding {
     event FundWithdrawByOwner(uint256);
     // 当锁定期已过 并且 众筹未达到目标时，记录投资人退款事件日志
     event RefundByInvestor(address, uint256);
+    // 记录投资人投资金事件日志
+    event PaymentByInvestor(address, uint256);
 
     constructor(uint256 _lockTime, address datafeedAddr) {
         // 初始化喂价变量 0x694AA1769357215DE4FAC081bf1f309aDC325306 // 以太坊-Sepolia测试网-ETH/USD地址
@@ -58,6 +60,8 @@ contract CrowdFunding {
         require(turnEthToUsd(msg.value) >= minAmount, "Send more ETH");
         // 记录投资人及投资金额 多次投资累加金额
         investorToAmount[msg.sender] += msg.value;
+        // 记录投资人投资金
+        emit PaymentByInvestor(msg.sender, msg.value);
     }
 
     // 获取 ETH/USD 最新的价格

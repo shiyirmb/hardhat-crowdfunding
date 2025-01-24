@@ -31,7 +31,7 @@ const prodTest = () => {
             const tx = await crowdFunding.getFund()
             // 确保能收到 receipt 回执
             const receipt = await tx.wait()
-            expect(receipt).to.emit(crowdFunding, "FundWithdrawByOwner").withArgs(ethers.parseEther("0.5"))
+            await expect(receipt).to.emit(crowdFunding, "FundWithdrawByOwner").withArgs(ethers.parseEther("0.5"))
         })
         it("测试 payment 并且 refund 成功", async () => {
             await crowdFunding.payment({ value: ethers.parseEther("0.1") })
@@ -41,7 +41,7 @@ const prodTest = () => {
             const tx = await crowdFunding.refund()
             // 确保能收到 receipt 回执
             const receipt = await tx.wait()
-            expect(receipt).to.emit(crowdFunding, "RefundByInvestor").withArgs(account1, ethers.parseEther("0.1"))
+            await expect(receipt).to.emit(crowdFunding, "RefundByInvestor").withArgs(account1, ethers.parseEther("0.1"))
         })
     })
 }

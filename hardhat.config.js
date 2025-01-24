@@ -45,5 +45,9 @@ module.exports = {
     account2: {
       default: 1,
     }
-  }
+  },
+  // 每个函数消耗gas数量的报告表格 方便发现哪些函数可以优化来提升合约效率
+  gasReporter: {
+    enabled: true, // 开启
+  },
 };
